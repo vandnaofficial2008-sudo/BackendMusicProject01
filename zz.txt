@@ -1,0 +1,65 @@
+HASHING
+    -> cryptographic algorithm
+    -> same input = same output
+    -> irreversible process
+        -> input <----❌---- hashed
+        -> input ----✅----> hashed
+
+=> npm i bcryptjs
+
+Middlewares
+    ->can read inside request
+    ->can modify data inside request
+    ->can send response
+
+jest
+    -> to check if everything is working properly or not
+    -> needs supertest
+        -> npm i jest supertest
+
+test => _app.test.js
+
+********************************Rough code***************************************
+
+const app = require("../app")
+const request = require("supertest")
+
+describe("GET /" , ()=>{
+    it("should return 200 OK" , async ()=> {
+        const res = await request(app).get("/");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual({message : "Hello world!"})
+    })
+})
+
+******************************************************************************
+
+express-validator -> Middlewares
+    -> checks if format is correct or not
+
+***********************************Rough code**********************************
+
+async function validateResult(req,res,next)
+{
+    const result = validateRules(req);
+    if(!result.isEmpty()){
+        return res.status(400).json({error : result.array()})
+    }
+    next()
+}
+
+const validateRules = [
+    body("userName")
+        .isString()
+        .withMessage("User name must be a string)
+        .isLength({min:5 , max:30})
+        .withMessage("User name length must be between 5 and 30")
+
+    body("email")
+        .isEmail()
+        .withMessage("Correct email required...)
+    validateResult
+]
+
+*****************************************************************************
